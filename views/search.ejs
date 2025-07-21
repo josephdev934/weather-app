@@ -1,0 +1,52 @@
+<%- include("partials/header") %>
+
+<!-- Weather Search Section with Video Background -->
+<div class="relative">
+    <br><br><br>
+  <!-- Video Background -->
+  <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-0">
+    <source src="/videos/856572-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Dark overlay for better readability -->
+  <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-0"></div>
+
+  <!-- Search Form Content -->
+  <div class="relative z-10 max-w-3xl mx-auto p-8 text-white">
+    <h1 class="text-5xl font-extrabold text-center mb-8 drop-shadow-lg">Welcome to <abbr title="Seph Digital Climate" style="text-decoration: none;" class="cursor-help text-blue-700">SDC</abbr> Weather App</h1>
+
+    <p class="text-lg font-medium text-center mb-4 drop-shadow-md">
+      Your trusted source for accurate, up-to-date weather information from around the globe.
+      Whether you're planning your day, scheduling a trip, or just curious about the weather, we've got you covered!
+    </p>
+
+    <p class="text-lg font-medium text-center mb-6 drop-shadow-md">
+      Simply enter the name of any city below and get instant access to detailed weather data including temperature, humidity, wind speed, sunrise & sunset times, and more.
+    </p>
+
+    <p class="text-base font-semibold italic text-center mb-10 drop-shadow-md">
+      Experience seamless weather updates powered by reliable data sources — so you can stay informed and prepared no matter where you are.
+    </p>
+
+    <form action="/weather%20results" method="get" class="flex justify-center space-x-3">
+      <input 
+        type="text" 
+        name="search" 
+        placeholder="Enter city name" 
+        required 
+        autofocus 
+        class="w-2/3 p-3 rounded text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button 
+        type="submit" 
+        class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition font-semibold"
+      >
+        Get Weather
+      </button>
+    </form>
+  </div>
+  <br><br><br>
+</div>
+
+<%- include("partials/footer") %>

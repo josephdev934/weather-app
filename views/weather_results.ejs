@@ -1,0 +1,122 @@
+<%- include("partials/header") %>
+
+
+<div class="relative">
+    <br><br><br><br><br>
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-30 z-0">
+    <source src="/videos/5040711-hd_1920_1080_30fps.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Weather Content -->
+  <div class="relative z-10 max-w-5xl mx-auto mt-10 p-6 bg-slate-800/80 backdrop-blur-md rounded-2xl shadow-2xl text-white space-y-8">
+    <% if (error){ %>
+  <p class="text-red-500 text-center mt-4 text-lg font-medium"><%= error %></p>
+<% } else { %>
+
+  <div class="max-w-4xl mx-auto mt-10 p-6 bg-slate-800 rounded-2xl shadow-lg text-white space-y-6">
+    <!-- Header with Flag -->
+    <div class="text-center">
+      <h2 class="text-2xl font-bold mb-2">
+        Weather in <%= city %>, <%= country %>
+      </h2>
+      <img src="https://flagcdn.com/w40/<%= country.toLowerCase() %>.png" alt="<%= country %> flag" class="inline-block" />
+    </div>
+
+    <!-- Weather Card -->
+    <div class="bg-slate-700 rounded-xl shadow-md p-6 flex flex-col md:flex-row items-center justify-between">
+      <div>
+        <p class="text-xl font-semibold">🌡 Temperature: <%= temperature %>°C</p>
+        <p class="text-lg capitalize mt-1">🔍 <%= description %></p>
+        <p class="mt-2">🧭 Coordinates:</p>
+        <p>↕️ Latitude: <%= lat %>°</p>
+        <p>↔️ Longitude: <%= lon %>°</p>
+        <!-- Friendly Weather Summary -->
+<%
+  function getFriendlyWeather(desc, temp) {
+    const d = desc.toLowerCase();
+    if (d.includes("clear")) return `☀️ It's a sunny day at ${temp}°C — great time to be outdoors!`;
+    if (d.includes("cloud")) return `☁️ The skies are cloudy at ${temp}°C — calm and mild.`;
+    if (d.includes("rain")) return `🌧️ It's raining at ${temp}°C — grab your umbrella.`;
+    if (d.includes("snow")) return `❄️ Snowfall at ${temp}°C — time for a warm drink!`;
+    if (d.includes("thunder")) return `⛈️ Thunderstorms are happening at ${temp}°C — stay safe indoors.`;
+    if (d.includes("mist") || d.includes("fog")) return `🌫️ Visibility is low at ${temp}°C due to mist or fog.`;
+    return `🌤️ Current conditions: ${desc} with a temperature of ${temp}°C.`;
+  }
+%>
+
+<div class="bg-slate-700 rounded-xl shadow-md p-4 text-center text-lg font-medium italic">
+  <%= getFriendlyWeather(description, temperature) %>
+</div>
+
+      </div>
+
+      <!-- Icon Display -->
+      <div class="mt-4 md:mt-0">
+        <% 
+          let icon = "☁️"; // Default
+          const desc = description.toLowerCase();
+          if (desc.includes("clear")) icon = "☀️";
+          else if (desc.includes("cloud")) icon = "☁️";
+          else if (desc.includes("rain")) icon = "🌧️";
+          else if (desc.includes("snow")) icon = "❄️";
+          else if (desc.includes("thunder")) icon = "⛈️";
+          else if (desc.includes("mist") || desc.includes("fog")) icon = "🌫️";
+        %>
+        <div class="text-6xl"><%= icon %></div>
+      </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="mt-6">
+      <div id="map" class="h-96 w-full rounded-lg border-2 border-blue-500"></div>
+    </div>
+
+    <!-- Other Weather Info -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-base md:text-lg">
+      <div class="bg-slate-700 p-4 rounded-lg shadow">
+        <p>📖 <strong>Description:</strong> <%= description %></p>
+        <p>💨 <strong>Wind Speed:</strong> <%= windspeed %> m/s</p>
+        <p>💧 <strong>Humidity:</strong> <%= humidity %>%</p>
+      </div>
+      <div class="bg-slate-700 p-4 rounded-lg shadow">
+        <p>🧭 <strong>Pressure:</strong> <%= pressure %> hPa</p>
+        <p>🌅 <strong>Sunrise:</strong> <%= sunrise %> (UTC)</p>
+        <p>🌇 <strong>Sunset:</strong> <%= sunset %> (UTC)</p>
+      </div>
+      <div class="bg-slate-700 p-4 rounded-lg shadow md:col-span-2">
+        <p>🏞️ <strong>Ground Level:</strong> <%= groundlevel %> hPa</p>
+        <p>🌊 <strong>Sea Level:</strong> <%= sealevel %> hPa</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map Script -->
+  <script>
+    const lat = <%- JSON.stringify(lat) %>;
+    const lon = <%- JSON.stringify(lon) %>;
+    console.log("JS lat:", lat);
+    console.log("JS lon:", lon);
+
+    const map = L.map('map').setView([lat, lon], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([lat, lon]).addTo(map)
+      .bindPopup("<b><%= city %></b><br><%= country %>").openPopup();
+  </script>
+
+<% } %>
+
+      </div> <!-- Weather content -->
+      <br><br><br><br><br><br>
+</div>   <!-- Video wrapper -->
+
+
+
+
+
+<%- include("partials/footer") %>
