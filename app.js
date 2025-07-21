@@ -2,11 +2,19 @@
  const app =express()
  const axios =require("axios")
  const path = require("path");
+ const cloudinary = require("cloudinary").v2
 
 // Serve static files (like videos, CSS, images)
 app.use(express.static(path.join(__dirname, "public")));
  app.set("view engine","ejs");
-
+cloudinary.config({
+  cloud_name:'dubwbiqvi',
+  secure:true
+})
+const url = cloudinary.url('5040711-hd_1920_1080_30fps_ab8rcg')
+const url2 = cloudinary.url('14106257_3840_2160_60fps_mbmpow')
+console.log(url)
+console.log(url2)
 
 
 
@@ -15,13 +23,16 @@ app.get("/",(req,res)=>{
 })
 app.get("/about",(req,res)=>{
    res.render("about.ejs")
-})
+});
 app.get("/Privacy%20Policy",(req,res)=>{
    res.render("PrivacyPolicy.ejs")
-})
+});
 app.get("/Terms%20of%20Use",(req,res)=>{
    res.render("TermsofUse.ejs")
-})
+});
+app.get("/SephWares",(req,res)=>{
+  res.render("SephWares.ejs")
+});
 
 app.get("/weather%20results", (req, res) => {
   const City = req.query.search;
