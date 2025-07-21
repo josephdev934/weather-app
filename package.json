@@ -5,8 +5,9 @@
   "license": "ISC",
   "author": "Joseph Akujieze",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
