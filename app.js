@@ -82,6 +82,7 @@ app.get("/weather%20results", (req, res) => {
 
 
 
- app.listen(3000,()=>{
-    console.log("Weather App server has started")
- })
+ const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Weather App server has started on port ${PORT}`);
+});
